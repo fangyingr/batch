@@ -12,6 +12,37 @@ project_name = 'Memoria';
 
 
 sbj_name ='S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
+%% Branch 1. basic config - PEDRO
+computer = 'Ying_iMAC';
+AddPaths(computer)
+%% Branch 1. basic config - PEDRO
+computer = 'Ying_iMAC';
+AddPaths(computer)
+
+parpool(4) % initialize number of cores
+
+%% Initialize Directories
+
+project_name = 'Memoria';
+
+%% Create folders
+
+
+sbj_name ='S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
+%% Branch 1. basic config - PEDRO
+computer = 'Ying_iMAC';
+AddPaths(computer)
+
+parpool(4) % initialize number of cores
+
+%% Initialize Directories
+
+project_name = 'Memoria';
+
+%% Create folders
+
+
+sbj_name ='S16_99_CJ'%'S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
 
 center = 'Stanford';
 
@@ -21,7 +52,7 @@ block_names = BlockBySubj(sbj_name,project_name);
 
 % Make sure your are connected to CISCO and logged in the server
 server_root = '/Volumes/neurology_jparvizi$/';
-comp_root = '/Volumes/Ying_SEEG/ParviziLab';%'/Users/yingfang/Documents/data';
+comp_root = '//Volumes/Ying_SEEG/Data_lbcn';%'/Users/yingfang/Documents/data';
 code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
 dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
 
@@ -29,7 +60,166 @@ dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
 [fs_iEEG, fs_Pdio, data_format] = GetFSdataFormat(sbj_name, center);
 
 %% Create subject folders
-load_server_files = 1;
+load_server_files = 0;
+CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format,load_server_files) 
+%%% IMPROVE uigetfile to go directly to subject folder %%%
+
+% this creates the fist instance of globalVar which is going to be
+% updated at each step of the preprocessing accordingly
+% At this stage, paste the EDF or TDT files into the originalData folder
+% and the behavioral files into the psychData
+% (unless if using CopyFilesServer, which is still under development)
+
+%% Copy the iEEG and behavioral files from server to local folders
+% Login to the server first?
+% Should we rename the channels at this stage to match the new naming?
+% This would require a table with chan names retrieved from the PPT
+% parfor i = 1:length(block_names)
+for i = 1:length(block_names)
+    CopyFilesServer(sbj_name,project_name,block_names{i},data_format,dirs)
+end
+% In the case of number comparison, one has also to copy the stim lists
+
+%% Get marked channels and demographics
+%[refChan, badChan, epiChan, emptyChan] = GetMarkedChans(sbj_name);
+ref_chan = [];
+epi_chan = [];
+empty_chan = []; % INCLUDE THAT in SaveDataNihonKohden SaveDataDecimate
+
+%% Branch 2 - data conversion - PEDRO
+if strcmp(data_format, 'edf')
+    SaveDataNihonKohden(sbj_name, project_name, block_names, dirs, ref_chan, epi_chan, empty_chan) %
+    % MAYBE NOT CHANGE DC CHANNEL LABELS. No need to call them PDIO? 
+elseif strcmp(data_format, 'TDT')
+    SaveDataDecimate(sbj_name, project_name, block_names, fs_iEEG, fs_Pdio, dirs, ref_chan, epi_chan, empty_chan) %% DZa 3051.76
+else
+    error('Data format has to be either edf or TDT format')
+end
+
+%% Convert berhavioral data to trialinfo
+switch project_name
+    case 'MMR'
+%         OrganizeTrialInfoMMR(sbj_name, project_name, block_names, dirs) %%% FIX TIMING OF REST AND CHECK ACTUAL TIMING WITH PHOTODIODE!!! %%%
+        OrganizeTrialInfoMMR_rest(sbj_name, project_name, block_names, dirs) %%% FIX ISSUE WITH TABLE SIZE, weird, works when separate, loop clear variable issue
+    case 'Memoria'
+        OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs,'english')
+    case 'UCLA'
+        OrganizeTrialInfoUCLA(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Calculia_China'
+        OrganizeTrialInfoCalculiaChina(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Calculia_production'
+        OrganizeTrialInfoCalculia_production(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Number_comparison'
+        OrganizeTrialInfoNumber_comparison(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from 
+end
+%parpool(4) % initialize number of cores
+
+%% Initialize Directories
+
+project_name = 'Memoria';
+
+%% Create folders
+
+
+sbj_name ='S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
+
+center = 'Stanford';
+
+%% Get block names
+block_names = BlockBySubj(sbj_name,project_name);
+% Manually edit this function to include the name of the blocks:
+
+% Make sure your are connected to CISCO and logged in the server
+server_root = '/Volumes/neurology_jparvizi$/';
+comp_root = '//Volumes/Ying_SEEG/Data_lbcn';%'/Users/yingfang/Documents/data';
+code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
+dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
+
+%% Get iEEG and Pdio sampling rate and data format
+[fs_iEEG, fs_Pdio, data_format] = GetFSdataFormat(sbj_name, center);
+
+%% Create subject folders
+load_server_files = 0;
+CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format,load_server_files) 
+%%% IMPROVE uigetfile to go directly to subject folder %%%
+
+% this creates the fist instance of globalVar which is going to be
+% updated at each step of the preprocessing accordingly
+% At this stage, paste the EDF or TDT files into the originalData folder
+% and the behavioral files into the psychData
+% (unless if using CopyFilesServer, which is still under development)
+
+%% Copy the iEEG and behavioral files from server to local folders
+% Login to the server first?
+% Should we rename the channels at this stage to match the new naming?
+% This would require a table with chan names retrieved from the PPT
+% parfor i = 1:length(block_names)
+for i = 1:length(block_names)
+    CopyFilesServer(sbj_name,project_name,block_names{i},data_format,dirs)
+end
+% In the case of number comparison, one has also to copy the stim lists
+
+%% Get marked channels and demographics
+%[refChan, badChan, epiChan, emptyChan] = GetMarkedChans(sbj_name);
+ref_chan = [];
+epi_chan = [];
+empty_chan = []; % INCLUDE THAT in SaveDataNihonKohden SaveDataDecimate
+
+%% Branch 2 - data conversion - PEDRO
+if strcmp(data_format, 'edf')
+    SaveDataNihonKohden(sbj_name, project_name, block_names, dirs, ref_chan, epi_chan, empty_chan) %
+    % MAYBE NOT CHANGE DC CHANNEL LABELS. No need to call them PDIO? 
+elseif strcmp(data_format, 'TDT')
+    SaveDataDecimate(sbj_name, project_name, block_names, fs_iEEG, fs_Pdio, dirs, ref_chan, epi_chan, empty_chan) %% DZa 3051.76
+else
+    error('Data format has to be either edf or TDT format')
+end
+
+%% Convert berhavioral data to trialinfo
+switch project_name
+    case 'MMR'
+%         OrganizeTrialInfoMMR(sbj_name, project_name, block_names, dirs) %%% FIX TIMING OF REST AND CHECK ACTUAL TIMING WITH PHOTODIODE!!! %%%
+        OrganizeTrialInfoMMR_rest(sbj_name, project_name, block_names, dirs) %%% FIX ISSUE WITH TABLE SIZE, weird, works when separate, loop clear variable issue
+    case 'Memoria'
+        OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs,'english')
+    case 'UCLA'
+        OrganizeTrialInfoUCLA(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Calculia_China'
+        OrganizeTrialInfoCalculiaChina(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Calculia_production'
+        OrganizeTrialInfoCalculia_production(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Number_comparison'
+        OrganizeTrialInfoNumber_comparison(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?        
+    case 'GradCPT'
+        OrganizeTrialInfoGradCPT(sbj_name, project_name, block_names, dirs,1,'1')
+end
+
+
+% segment_audio_mic(sbj_name,project_name, dirs, block_names{1}) 
+
+
+%% Branch 3 - event identifier
+%EventIdentifier(sbj_name, project_name, block_names, dirs,1)
+
+EventIdentifier_Memoria(sbj_name, project_name, block_names, dirs)
+
+center = 'Stanford';
+
+%% Get block names
+block_names = BlockBySubj(sbj_name,project_name);
+% Manually edit this function to include the name of the blocks:
+
+% Make sure your are connected to CISCO and logged in the server
+server_root = '/Volumes/neurology_jparvizi$/';
+comp_root = '//Volumes/Ying_SEEG/Data_lbcn';%'/Users/yingfang/Documents/data';
+code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
+dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
+
+%% Get iEEG and Pdio sampling rate and data format
+[fs_iEEG, fs_Pdio, data_format] = GetFSdataFormat(sbj_name, center);
+
+%% Create subject folders
+load_server_files = 0;
 CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format,load_server_files) 
 %%% IMPROVE uigetfile to go directly to subject folder %%%
 
@@ -91,7 +281,7 @@ end
 %% Branch 3 - event identifier
 EventIdentifier(sbj_name, project_name, block_names, dirs,1)
 
-EventIdentifier_Memoria(sbj_name, project_name, block_names(4), dirs)
+EventIdentifier_Memoria(sbj_name, project_name, block_names, dirs)
 
 
 

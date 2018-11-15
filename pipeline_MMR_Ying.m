@@ -2,13 +2,13 @@
 %% Branch 1. basic config - PEDRO
 AddPaths('Ying_iMAC')
 
-parpool(4) % initialize number of cores
+%parpool(4) % initialize number of cores
 
 %% Initialize Directories
 project_name = 'MMR';%'Memoria';%;
 
 %% Create folders
-sbj_name ='S17_118_TW';%'S17_110_SC';%'S16_99_CJ';%'S18_131';%'S12_42_NC'%'S18_130_RH';%'S12_38_LK';%'S13_47_JT2';%%%;%;%'S18_124_JR2'%'S12_33_DA'%'S12_42_NC';%%'S17_118_TW';%'S12_38_LK';%%'S12_38_LK';%;'S18_119_AG'%%%'S18_125';%'S18_126';%%'S11_27_PT';%'S12_33_DA'%'S13_47_JT2'%%'S17_112_EA'%%''S16_99_CJ';%'S17_110_SC';%'S13_47_JT2'%S17_112_EA'%%'S18_126';% 'S18_126';% 'S18_124_JR2';
+sbj_name ='S17_116';%'S16_100_AF'%'S14_69_RTb';%'S17_118_TW';%'S17_110_SC';%'S16_99_CJ';%'S18_131';%'S12_42_NC'%'S18_130_RH';%'S12_38_LK';%'S13_47_JT2';%%%;%;%'S18_124_JR2'%'S12_33_DA'%'S12_42_NC';%%'S17_118_TW';%'S12_38_LK';%%'S12_38_LK';%;'S18_119_AG'%%%'S18_125';%'S18_126';%%'S11_27_PT';%'S12_33_DA'%'S13_47_JT2'%%'S17_112_EA'%%''S16_99_CJ';%'S17_110_SC';%'S13_47_JT2'%S17_112_EA'%%'S18_126';% 'S18_126';% 'S18_124_JR2';
 
 % Center
 % center = 'China';
@@ -28,7 +28,7 @@ dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
 [fs_iEEG, fs_Pdio, data_format] = GetFSdataFormat(sbj_name, center);
 
 %% Create subject folders
-CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format, 0) 
+CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format, 1) 
 %%% IMPROVE uigetfile to go directly to subject folder %%%
 
 % this creates the fist instance of globalVar which is going to be
@@ -37,18 +37,65 @@ CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format, 0)
 % and the behavioral files into the psychData
 % (unless if using CopyFilesServer, which is still under development)
 
-%% Get marked channels and demographics
-%[refChan, badChan, epiChan, emptyChan] = GetMarkedChans(sbj_name);
 ref_chan = [];
 epi_chan = [];
 empty_chan = []; % INCLUDE THAT in SaveDataNihonKohden SaveDataDecimate
+%LK 65 105 119 117 106 71 118 67 107 81 66 103 108 37 70 115 80 84 51 83 59 69 60 112 38 54 56 36 91 43 116 113 41 57 35 110 75 73 72 29 47 88 53 102 49 87 120 68 34 39 33 45 52 82 64 50 86 61 109 48 104 62 114 98 93 99 121 78 79 100 101 90 92 63 122 76 111 46 58 44 55 40 97 96 74 42 77 95 85 8 7 5 4
 
 
-OrganizeTrialInfoMMR_rest(sbj_name, project_name, block_names, dirs)
+%% Copy the iEEG and behavioral files from server to local folders
+% Login to the server first?
+% Should we rename the channels at this stage to match the new naming?
+% This would require a table with chan names retrieved from the PPT
+parfor i = 1:length(block_names)
+    CopyFilesServer(sbj_name,project_name,block_names{i},data_format,dirs)
+end
+% In the case of number comparison, one has also to copy the stim lists
+
+
+%% Branch 2 - data conversion - PEDRO
+if strcmp(data_format, 'edf')
+    SaveDataNihonKohden(sbj_name, project_name, block_names, dirs, ref_chan, epi_chan, empty_chan) %
+elseif strcmp(data_format, 'TDT')
+    SaveDataDecimate(sbj_name, project_name, block_names, fs_iEEG, fs_Pdio, dirs, ref_chan, epi_chan, empty_chan) %% DZa 3051.76
+else
+    error('Data format has to be either edf or TDT format')
+end
+
+%% Convert berhavioral data to trialinfo
+switch project_name
+    case 'Calculia_SingleDigit'
+        %         OrganizeTrialInfoMMR(sbj_name, project_name, block_names, dirs) %%% FIX TIMING OF REST AND CHECK ACTUAL TIMING WITH PHOTODIODE!!! %%%
+        OrganizeTrialInfoCalculia(sbj_name, project_name, block_names, dirs) %%% FIX ISSUE WITH TABLE SIZE, weird, works when separate, loop clear variable issue
+    case 'UCLA'
+        OrganizeTrialInfoUCLA(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds? INCLUDE REST!!!
+    case 'MMR'
+        OrganizeTrialInfoMMR_rest(sbj_name, project_name, block_names, dirs) %%% FIX ISSUE WITH TABLE SIZE, weird, works when separate, loop clear variable issue
+    case 'Memoria'
+        language = 'english'; % make this automnatize by sbj_name
+        OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs, language)
+    case 'Calculia_China'
+        OrganizeTrialInfoCalculiaChina(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Calculia_production'
+        OrganizeTrialInfoCalculia_production(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Number_comparison'
+        OrganizeTrialInfoNumber_comparison(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'MFA'
+        OrganizeTrialInfoMFA(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+    case 'Calculia'
+        OrganizeTrialInfoCalculia_combined(sbj_name, project_name, block_names, dirs) % FIX 1 trial missing from K.conds?
+end
+
+
 
 %% Branch 3 - event identifier
- % new ones, photo = 1; old ones121, photo = 2; china, photo = varies, depends on the clinician
-EventIdentifier(sbj_name, project_name, block_names, dirs, 1)
+if strcmp(project_name, 'Number_comparison')
+    event_numcomparison_current(sbj_name, project_name, block_names, dirs, 9) %% MERGE THIS
+elseif strcmp(project_name, 'Memoria')
+    EventIdentifier_Memoria(sbj_name, project_name, block_names, dirs) % new ones, photo = 1; old ones, photo = 2; china, photo = varies, depends on the clinician, normally 9.
+else
+    EventIdentifier(sbj_name, project_name, block_names, dirs, 1) % new ones, photo = 1; old ones, photo = 2; china, photo = varies, depends on the clinician, normally 9.
+end
 
 
 %% Branch 4 - bad channel rejection
