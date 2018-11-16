@@ -172,7 +172,7 @@ switch region
                 elec_names ={'LHIP1','LHIP2','RAH1','RAH2','RAH3'};
                 elec_nums =[11 12 98 99 100];
             case 'S18_119_AG'
-                elec_names ={'LHT2_1','LHT2_2','LHT2_3','LHT2_4','RHIP2','RHIP3'};
+                elec_names ={'LHT21','LHT22','LHT23','LHT24','RHIP2','RHIP3'};
                 elec_nums = [31 32 33 34 92 93];
             case 'S18_124_JR2'
                 elec_names ={'LHA1','LHA2','LHA3','LMH1','LMH2','LMH3','LPH2','LPH3'};
