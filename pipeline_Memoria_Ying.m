@@ -1,20 +1,4 @@
 %% Branch 1. basic config - PEDRO
-computer = 'Ying_iMAC';
-AddPaths(computer)
-
-parpool(4) % initialize number of cores
-
-%% Initialize Directories
-
-project_name = 'Memoria';
-
-%% Create folders
-
-
-sbj_name ='S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
-%% Branch 1. basic config - PEDRO
-computer = 'Ying_iMAC';
-AddPaths(computer)
 %% Branch 1. basic config - PEDRO
 computer = 'Ying_iMAC';
 AddPaths(computer)
@@ -28,21 +12,7 @@ project_name = 'Memoria';
 %% Create folders
 
 
-sbj_name ='S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
-%% Branch 1. basic config - PEDRO
-computer = 'Ying_iMAC';
-AddPaths(computer)
-
-parpool(4) % initialize number of cores
-
-%% Initialize Directories
-
-project_name = 'Memoria';
-
-%% Create folders
-
-
-sbj_name ='S16_99_CJ'%'S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
+sbj_name ='S18_129'%'S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
 
 center = 'Stanford';
 
@@ -60,7 +30,7 @@ dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
 [fs_iEEG, fs_Pdio, data_format] = GetFSdataFormat(sbj_name, center);
 
 %% Create subject folders
-load_server_files = 0;
+load_server_files = 1;
 CreateFolders(sbj_name, project_name, block_names, center, dirs, data_format,load_server_files) 
 %%% IMPROVE uigetfile to go directly to subject folder %%%
 

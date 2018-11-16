@@ -1,14 +1,14 @@
-function [elec_names,elec_nums] = ElectrodeBySubj(sbj,region)
+function [elec_names,elec_nums] = ElectrodeBySubj_selected(sbj,region)
 
 switch region
     case 'PMC'
         switch sbj
             case 'S14_69_RTb'
-                elec_names = {'LP(LBB1)1';'LP(LBB1)2';'LP(LBB1)3';'LPI12(LCC2)';'LPI13(LCC3)';'LPS1(LGG1)';'LPS2(LGG2)';'LPS3(LGG3)';'LPS4(LGG4)'};
-                elec_nums =[33:35 43 44 53:56];
+                elec_names = {'LP(LBB1)2';'LP(LBB1)3';'LPI12(LCC2)';'LPI13(LCC3)';'LPS1(LGG1)';'LPS3(LGG3)';'LPS4(LGG4)'};
+                elec_nums =[34:35 43 44 53 55 56];
             case 'S16_99_CJ'
-                elec_names = {'LRS1';'LRS2';'LRS3';'LRS4';'LRS5'};
-                elec_nums =[51:55];
+                elec_names = {'LRS2';'LRS3';'LRS4';'LRS5'};
+                elec_nums =[52:55];
             case 'S16_100_AF'
                 elec_names = {''};
                 elec_nums =[];
@@ -16,8 +16,8 @@ switch region
                 elec_names = {''};
                 elec_nums =[];
             case 'S17_110_SC'
-                elec_names = {'LPC1';'LPC2'};
-                elec_nums =[51 52];
+                elec_names = {};
+                elec_nums =[;
             case 'S17_112_EA'
                 elec_names ={'LPCI2';'LPCI2';'LPCI3';'LPCI4'};
                 elec_nums =[45 46 47 48];
@@ -27,8 +27,8 @@ switch region
             case 'S17_118_TW'
                 elec_names ={'LRSC1';'LRSC2';'LRSC3'};%;
                 elec_nums =[51 52 53];
-           case 'S18_119_AG'
-                elec_names ={'LCINP1';'LCINP2';'LCINP3';'LCINP4';'LCINP5';'RCINP1';'RCINP2';'RCINP3'};
+            case 'S18_119_AG'
+                elec_names ={'LCINP1';'LCINP2';'LCINP3';'RCINP1';'RCINP2';'RCINP3'};
                 elec_nums = [71:75 111:115];
             case 'S18_124_JR2'
                 elec_names= {'LDP1';'LDP2';'LDP3';'RDP1'};
@@ -44,7 +44,7 @@ switch region
                 elec_nums =[51 52 53];
             case 'S18_128_CG'
                 elec_names ={'LPOC1';'LPOC2';'LPOC3';'LPOC4';'LPOC5';'LMLM1'};
-                elec_nums =[41:45 ];
+                elec_nums =[51:55 ];
             case 'S19_129'
                 elec_names = {''};
                 elec_nums=[];
@@ -99,7 +99,7 @@ switch region
             case 'S17_118_TW'
                 elec_names ={'LOFCa1','LOFCa2','LOFP1'};
                 elec_nums =[31 32 41];
-          case 'S18_119_AG'
+            case 'S18_119_AG'
                 elec_names ={'LOF1','LOF2'};
                 elec_nums = [51 52];
             case 'S18_124_JR2'

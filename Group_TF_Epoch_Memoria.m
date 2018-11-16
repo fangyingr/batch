@@ -6,8 +6,9 @@ computer = 'Ying_SEEG';
 project_name = 'Memoria';
 center = 'Stanford';
 regions = {'Hippocampus';'mPFC';'PMC'};%;%;'Hippocampus''mPFC';'PMC'
-sbj_names ={'S16_99_CJ';'S18_131';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S17_116';'S18_127';'S18_128_CG';'S17_105_TA';'S18_126';'S14_69_RTb';'S16_100_AF';'S17_104_SW';'S18_130_RH';'S18_129'};
-%%;
+sbj_names ={'S18_128_CG'}
+%{'S16_99_CJ';'S18_131';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S17_116';'S18_127';'S18_128_CG';'S17_105_TA';'S18_126';'S14_69_RTb';'S16_100_AF';'S18_130_RH'};
+
 server_root = '/Volumes/neurology_jparvizi$/';
 comp_root = '/Volumes/Ying_SEEG/Data_lbcn';%'/Volumes/Ying_SEEG/ParviziLab';
 code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
@@ -33,13 +34,13 @@ for subi=1:length(sbj_names)
     %
     %     pause;
     %     close all;
-    % for ri=1:length(regions)
+     for ri=1:length(regions)
     elec_names=[];elecs=[];
-    %         [elec_names,elecs] = ElectrodeBySubj(sbj_name,regions{ri});
-    load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
-    %elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
-    elecs=1:globalVar.nchan;
-    
+            [elec_names,elecs] = ElectrodeBySubj(sbj_name,regions{ri});
+%     load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
+%     %elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
+%     elecs=1:globalVar.nchan;
+%   
     if ~isempty(elecs)
         
         
@@ -52,29 +53,29 @@ for subi=1:length(sbj_names)
 %         end
         
         % epoch
-        epoch_params = genEpochParams(project_name, 'stim');
-        epoch_params.blc.bootstrap = true; 
-        
-        for i = 1:length(block_names)
-            bn = block_names{i};
-            
-            parfor ei = 1:length(elecs)
-                EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
-                % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
-            end
-        end
-        
-        epoch_params = genEpochParams(project_name, 'resp');
-       epoch_params.blc.bootstrap = true;
-        for i = 1:length(block_names)
-            bn = block_names{i};
-            
-            parfor ei = 1:length(elecs)
-                EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
-                % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
-            end
-        end
-        %
+% %         epoch_params = genEpochParams(project_name, 'stim');
+% %         epoch_params.blc.bootstrap = true; 
+% %         
+% %         for i = 1:length(block_names)
+% %             bn = block_names{i};
+% %             
+% %             parfor ei = 1:length(elecs)
+% %                 EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
+% %                 % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
+% %             end
+% %         end
+% %         
+% %         epoch_params = genEpochParams(project_name, 'resp');
+% %        epoch_params.blc.bootstrap = true;
+% %         for i = 1:length(block_names)
+% %             bn = block_names{i};
+% %             
+% %             parfor ei = 1:length(elecs)
+% %                 EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
+% %                 % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
+% %             end
+% %         end
+% %         %
         
         plot_params = genPlotParams(project_name,'timecourse');
         plot_params.noise_method = 'trials';%'timepts';%'trials'; %'trials','timepts','none'
@@ -85,12 +86,14 @@ for subi=1:length(sbj_names)
         %plot_params.single_trial=1;
         %plot_params.noise_fields_timepts= {'bad_inds_HFO','bad_epochs_raw_LFspike','bad_inds_raw_HFspike'}
         % PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','conds_all',{'autobio','numword'},plot_params,'Band')
-        PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
+       % PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
         
+        PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','conds_all',{},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
         
         plot_params.xlim = [-5 1];
         %  PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','resp','conds_all',{'autobio','numword'},plot_params,'Band')
-        PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','resp','condNames',{'autobio','math'},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
+        %PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','resp','condNames',{'autobio','math'},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
+        PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','resp','conds_all',{},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
         
         %  PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','newcondNames',{'autobio-specific','autobio-general'},plot_params,'Band') %
         %
@@ -103,6 +106,6 @@ for subi=1:length(sbj_names)
         
         disp('No electrodes in this regions')
         
-        % end
+         end
     end
 end
