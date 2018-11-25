@@ -6,23 +6,23 @@ AddPaths(computer)
 project_name = 'MMR';
 center = 'Stanford';
 regions = {'Hippocampus';'PMC';'mPFC'};
-sbj_names ={'S18_130_RH'};%'S12_33_DA'};%};%;%;'S12_33_DA';'S12_38_LK';'S12_42_NC';'S17_118_TW';'S18_119_AG';
+sbj_names ={'S18_119_AG'};%{'S12_33_DA';'S12_38_LK';'S12_42_NC';'S17_118_TW';'S18_119_AG';'S18_130_RH';'S18_131'};%};%;%;'S12_33_DA';
 datapath ='/Users/yingfang/Documents/data/Results/MMR/Group/Stats/';
 locktype ='stim';
 
 server_root = '/Volumes/neurology_jparvizi$/';
 comp_root = '/Users/yingfang/Documents/data';
-
+code_root = '/Users/yingfang/Documents/lbcn_preproc';
 for subi=1:length(sbj_names)
     
     sbj_name = sbj_names{subi};
-     dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root);
+     dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
     block_names = BlockBySubj(sbj_name,project_name);
     
     for ri=1:length(regions)
         
         elec_names=[];elecs=[];
-        [elec_names,elecs] = ElectrodeBySubj(sbj_name,regions{ri});
+        [elec_names,elecs] = ElectrodeBySubj_LR(sbj_name,regions{ri});
         
         if ~isempty(elecs)
             filename1=dir(fullfile(datapath,[sbj_name,'*',regions{ri},'.mat']));

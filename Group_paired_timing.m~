@@ -76,8 +76,9 @@ for ri=1:length(pair_regions)
                 ele2 = intersect(ele2,elecs2LR);
                 [~,sindx]=ismember(ele2,elecs2);
                 end
-           
-       
+                
+                if strn
+                
                 start1=s1(sindx1);
                 rol11=rol1(sindx1);
                 

@@ -13,12 +13,12 @@ sbj_names ={'S14_69_RTb';'S16_99_CJ';'S18_131';'S17_110_SC';'S17_112_EA';'S17_11
 
 datatype1='Band';
 datatype2='HFB';%;
-locktype='stimlock'%;%%'resplock';%'stimlock'%;%
-conditions='autobio_digit_numword'%;%'autobio_math'%
+locktype='resplock';%%;%%'stimlock'%;%
+conditions='autobio_digit_numword'%;'autobio_math'%%
 %datatype3='ITPC';%'PAC';%'ITPC';
 
 fpath='/Volumes/Ying_SEEG/Data_lbcn/Results/Memoria';%'/Users/yingfang/Documents/data/Results/MMR';
-tpath='/Volumes/Ying_SEEG/Data_lbcn/Results/Group_by_regions/Memoria';
+tpath='/Volumes/Ying_SEEG/Data_lbcn/Results/Group_by_regions';
 
 server_root = '/Volumes/neurology_jparvizi$/';
 comp_root = '/Users/yingfang/Documents/data';
@@ -42,7 +42,7 @@ for subi=1:length(sbj_names)
             %frompath=fullfile(fpath,sbj_name,'Figures',[datatype1,'Data'],datatype2,datatype3,'autobio_math');
             
             fromfile = dir(frompath);
-            tofile =fullfile(tpath,datatype2,locktype,conditions,regions{ri});
+            tofile =fullfile(tpath,'All_figs',regions{ri});
             if ~exist(tofile)
                 mkdir(tofile)
             end

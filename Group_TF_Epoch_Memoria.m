@@ -5,8 +5,8 @@ computer = 'Ying_SEEG';
 %AddPaths(computer)
 project_name = 'Memoria';
 center = 'Stanford';
-regions = {'Hippocampus';'mPFC';'PMC'};%;%;'Hippocampus''mPFC';'PMC'
-sbj_names ={'S18_128_CG'}
+regions = {'PMC';'Hippocampus';'mPFC'};%'PMC'
+sbj_names ={'S17_105_TA'}%'S18_127';'S14_69_RTb'}
 %{'S16_99_CJ';'S18_131';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S17_116';'S18_127';'S18_128_CG';'S17_105_TA';'S18_126';'S14_69_RTb';'S16_100_AF';'S18_130_RH'};
 
 server_root = '/Volumes/neurology_jparvizi$/';
@@ -23,20 +23,20 @@ for subi=1:length(sbj_names)
     % % %    % updateGlobalVar(project_name,sbj_name,dirs,comp_root,block_names)
     % % %
     %% event identifier
-    %     if ismember(sbj_name,'S17_110_SC')
-    %
-    %         OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs,'spanish')
-    %     else
-    %         OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs,'english')
-    %     end
-    %
-    %     EventIdentifier_Memoria(sbj_name, project_name, block_names, dirs)
-    %
+%         if ismember(sbj_name,'S17_110_SC')
+%     
+%             OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs,'spanish')
+%         else
+%             OrganizeTrialInfoMemoria(sbj_name, project_name, block_names, dirs,'english')
+%         end
+%     
+%         EventIdentifier_Memoria(sbj_name, project_name, block_names, dirs)
+    
     %     pause;
     %     close all;
      for ri=1:length(regions)
-    elec_names=[];elecs=[];
-            [elec_names,elecs] = ElectrodeBySubj(sbj_name,regions{ri});
+          elec_names=[];elecs=[];
+          [elec_names,elecs] = ElectrodeBySubj_selected(sbj_name,regions{ri});
 %     load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
 %     %elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
 %     elecs=1:globalVar.nchan;

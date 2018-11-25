@@ -1,4 +1,4 @@
-function [elec_names,elec_nums] = ElectrodeBySubj(sbj,region)
+function [elec_names,elec_nums] = ElectrodeBySubj_LR(sbj,region)
 
 switch region
     case 'PMC'
@@ -27,9 +27,9 @@ switch region
             case 'S17_118_TW'
                 elec_names ={'LRSC1';'LRSC2';'LRSC3'};%;
                 elec_nums =[51 52 53];
-           case 'S18_119_AG'
-                elec_names ={'LCINP1';'LCINP2';'LCINP3';'LCINP4';'LCINP5';'RCINP1';'RCINP2';'RCINP3'};
-                elec_nums = [71:75 111:113];
+            case 'S18_119_AG'
+                elec_names ={'LCINP1';'LCINP2';'LCINP3';'LCINP4';'LCINP5'};%'RCINP1';'RCINP2';'RCINP3'
+                elec_nums = [71:75 ];%111:113
             case 'S18_124_JR2'
                 elec_names= {'LDP1';'LDP2';'LDP3';'RDP1'};
                 elec_nums = [77 78 79 107];
@@ -51,9 +51,14 @@ switch region
             case 'S18_130_RH'
                 elec_names = {'LCIN10'};
                 elec_nums=[40];
-            case 'S18_131'
-                elec_names = {'LPC1','LPC2','LPC3','LPC4','RPC1','RPC2','RPC3','RPC4','RPC5'};
-                elec_nums=[54:57 44:48];
+            case 'S18_131_L'
+                elec_names = {'LPC1','LPC2','LPC3','LPC4'};
+                elec_nums=[54:57];
+                
+            case 'S18_131_R'
+                elec_names = {'RPC1','RPC2','RPC3','RPC4','RPC5'};
+                elec_nums=[44:48];
+                
                 
             case 'S13_47_JT2'
                 elec_names ={'51','52','53','54','55','56','57','58','59','60','61','62'};
@@ -68,7 +73,7 @@ switch region
                 elec_names ={'65','66','67','68','69','70','73','74','81','82','83','84','85','86','87'};
                 elec_nums =[65:70 81:87];
                 
-  
+                
         end
         
     case 'mPFC'
@@ -84,7 +89,7 @@ switch region
                 elec_names = {''};
                 elec_nums =[];
             case 'S17_105_TA'
-                   elec_names = {'RIF3'};
+                elec_names = {'RIF3'};
                 elec_nums =[91];
             case 'S17_110_SC'
                 elec_names = {'LOF1';'LOF2'};
@@ -98,7 +103,7 @@ switch region
             case 'S17_118_TW'
                 elec_names ={'LOFCa1','LOFCa2','LOFP1'};
                 elec_nums =[31 32 41];
-          case 'S18_119_AG'
+            case 'S18_119_AG'
                 elec_names ={'LOF1','LOF2'};
                 elec_nums = [51 52];
             case 'S18_124_JR2'
@@ -137,9 +142,13 @@ switch region
                 elec_names ={'LOF6','LOF7'};%,
                 elec_nums =[6 7];
                 
-            case 'S18_131'
-                elec_names = {'LAC1','LAC2','LAC3','LAC4','LAC5','LAC6','LAC7','LAC8','LAC9','LAC10','LAC11','LAC12','LAC13','RAC1','RAC2','RAC3','RAC13','RAC14'};
-                elec_nums=[99:111 30:32 42 43];
+            case 'S18_131_L'
+                elec_names = {'LAC1','LAC2','LAC3','LAC4','LAC5','LAC6','LAC7','LAC8','LAC9','LAC10','LAC11','LAC12','LAC13'};
+                elec_nums=[99:111];
+                
+            case 'S18_131_R'
+                elec_names = {'RAC1','RAC2','RAC3','RAC13','RAC14'};
+                elec_nums=[30:32 42 43];
                 
         end
         
@@ -171,8 +180,8 @@ switch region
                 elec_names ={'LHIP1','LHIP2','RAH1','RAH2','RAH3'};
                 elec_nums =[11 12 98 99 100];
             case 'S18_119_AG'
-                elec_names ={'LHT21','LHT22','LHT23','LHT24','RHIP2','RHIP3'};
-                elec_nums = [31 32 33 34 92 93];
+                elec_names ={'LHT21','LHT22','LHT23','LHT24'};%'RHIP2','RHIP3'
+                elec_nums = [31 32 33 34 ];%92 93
             case 'S18_124_JR2'
                 elec_names ={'LHA1','LHA2','LHA3','LMH1','LMH2','LMH3','LPH2','LPH3'};
                 elec_nums = [7 8 9 17 18 19 28 29];
@@ -210,9 +219,13 @@ switch region
                 elec_nums =[22 23 24 93 94 83:86];
                 
                 
-            case 'S18_131'
-                elec_names = {'LAH1','RAHb1'};
-                elec_nums=[1 65];
+            case 'S18_131_L'
+                elec_names = {'LAH1'};
+                elec_nums=[1];
+                
+            case 'S18_131_R'
+                elec_names = {'RAHb1'};
+                elec_nums=[65];
         end
 end
 end
