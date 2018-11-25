@@ -6,7 +6,7 @@ AddPaths(computer)
 project_name = 'MMR';
 center = 'Stanford';
 regions = {'Hippocampus';'PMC';'mPFC'};
-sbj_names ={'S18_119_AG'};%{'S12_33_DA';'S12_38_LK';'S12_42_NC';'S17_118_TW';'S18_119_AG';'S18_130_RH';'S18_131'};%};%;%;'S12_33_DA';
+sbj_names ={'S12_33_DA';'S12_38_LK';'S12_42_NC';'S17_118_TW';'S18_119_AG';'S18_130_RH';'S18_131'};%};%;%;'S12_33_DA';
 datapath ='/Users/yingfang/Documents/data/Results/MMR/Group/Stats/';
 locktype ='stim';
 
@@ -22,7 +22,7 @@ for subi=1:length(sbj_names)
     for ri=1:length(regions)
         
         elec_names=[];elecs=[];
-        [elec_names,elecs] = ElectrodeBySubj_LR(sbj_name,regions{ri});
+        [elec_names,elecs] = ElectrodeBySubj(sbj_name,regions{ri});
         
         if ~isempty(elecs)
             filename1=dir(fullfile(datapath,[sbj_name,'*',regions{ri},'.mat']));

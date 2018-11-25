@@ -9,7 +9,7 @@ clear all;clc;
 project_name = 'MMR';
 
 regions = {'Hippocampus';'PMC';'mPFC'};
-sbj_names ={'S18_131_L';'S18_131_R';'S12_42_NC';'S17_118_TW';'S18_119_AG';'S12_33_DA';'S12_38_LK';'S18_130_RH'};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
+sbj_names ={'S12_42_NC';'S17_118_TW';'S18_119_AG';'S12_33_DA';'S12_38_LK';'S18_130_RH';'S18_131_L';'S18_131_R';};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
 locktype ='stim';
 datapath= '/Users/yingfang/Documents/data/Results/MMR/Group/ROL/';
 pair_regions={'PMC','mPFC';'Hippocampus','PMC';'Hippocampus','mPFC'};%
@@ -155,8 +155,9 @@ a=pairROL{1}(:,2);
 b=pairROL{1}(:,1);
 a=[data.PMC_mPFC.lag];
 b=zeros(length(a),1);
-
-[p, observeddifference, effectsize] = permutationTest(a,b,10000)
+a=(data.PMC_mPFC.rol);
+a=(data.PMC_mPFC.sig_onset);
+[p, observeddifference, effectsize] = permutationTest(a(:,1),a(:,2),10000)
 
 subplot (1,3,1)
 boxplot(pairROL{1})

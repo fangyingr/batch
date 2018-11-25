@@ -28,8 +28,8 @@ switch region
                 elec_names ={'LRSC1';'LRSC2';'LRSC3'};%;
                 elec_nums =[51 52 53];
            case 'S18_119_AG'
-                elec_names ={'LCINP1';'LCINP2';'LCINP3';'LCINP4';'LCINP5';'RCINP1';'RCINP2';'RCINP3'};
-                elec_nums = [71:75 111:113];
+                elec_names ={'LCINP1';'LCINP2';'LCINP3';'LCINP4';'LCINP5'}%;'RCINP1';'RCINP2';'RCINP3'};
+                elec_nums = [71:75 ]%111:113];
             case 'S18_124_JR2'
                 elec_names= {'LDP1';'LDP2';'LDP3';'RDP1'};
                 elec_nums = [77 78 79 107];
@@ -171,8 +171,8 @@ switch region
                 elec_names ={'LHIP1','LHIP2','RAH1','RAH2','RAH3'};
                 elec_nums =[11 12 98 99 100];
             case 'S18_119_AG'
-                elec_names ={'LHT21','LHT22','LHT23','LHT24','RHIP2','RHIP3'};
-                elec_nums = [31 32 33 34 92 93];
+                elec_names ={'LHT21','LHT22','LHT23','LHT24'}%,'RHIP2','RHIP3'};
+                elec_nums = [31 32 33 34 ]%92 93];
             case 'S18_124_JR2'
                 elec_names ={'LHA1','LHA2','LHA3','LMH1','LMH2','LMH3','LPH2','LPH3'};
                 elec_nums = [7 8 9 17 18 19 28 29];
