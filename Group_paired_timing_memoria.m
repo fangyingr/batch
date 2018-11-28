@@ -166,8 +166,8 @@ for i= 1:length(pair_regions)
         rol=data.(['stim',num2str(si)]).([pair_regions{i,1},'_',pair_regions{i,2}]).rol;
         N.([pair_regions{i,1},'_',pair_regions{i,2}])(si,1)=size(rol,1);
         Y.([pair_regions{i,1},'_',pair_regions{i,2}])(si,:)=nanmean(rol);
-        E.([pair_regions{i,1},'_',pair_regions{i,2}])(si,:)=nanstd(rol)/sqrt(size(rol,1));
-        [p.([pair_regions{i,1},'_',pair_regions{i,2}])(si,1), observeddifference, effectsize] = permutationTest(rol(:,1),rol(:,2),10000);
+        E.([pair_regions{i,1},'_',pair_regions{i,2}])(si,:)=nanstd(rol)/sqrt(size(rol,1));pfilename2
+       [p.([pair_regions{i,1},'_',pair_regions{i,2}])(si,1), observeddifference, effectsize] = permutationTest(rol(:,1),rol(:,2),10000);
         
     end 
     rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).rol=Y.([pair_regions{i,1},'_',pair_regions{i,2}]);
