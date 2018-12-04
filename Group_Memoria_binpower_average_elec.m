@@ -50,8 +50,8 @@ for ri=1:length(regions)
                 for bi=1:size (time_events,2)-1
                     tindx=[];
                     tindx=find(data.time>time_events(bi)&data.time<=time_events(bi+1));
-                    bindata{ri}(:,bi)=nanmean(ddata_all.average.(regions{ri})(:,tindx),2);
-                    bindata_ave{ri}(:,bi)=nanmean(data_all.average.(regions{ri})(:,tindx),2);
+                    bindata{ri}(:,bi)=nanmean(data_all.average.(regions{ri})(:,tindx),2);
+                    bindata_ave{ri}(:,bi)=nanmean(bindata{ri}(:,bi),1);
                 end
 end
 
