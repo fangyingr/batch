@@ -9,7 +9,7 @@ clear all;clc;
 project_name = 'MMR';
 
 regions = {'Hippocampus';'PMC';'mPFC'};
-sbj_names ={'S12_42_NC';'S17_118_TW';'S18_119_AG';'S12_33_DA';'S12_38_LK';'S18_130_RH';'S18_131_L';'S18_131_R';};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
+sbj_names ={'S12_33_DA';'S12_38_LK';'S12_42_NC';'S17_118_TW';'S18_119_AG';'S18_130_RH';'S18_131_L';'S18_131_R'};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
 locktype ='stim';
 datapath= '/Users/yingfang/Documents/data/Results/MMR/Group/ROL/';
 pair_regions={'PMC','mPFC';'Hippocampus','PMC';'Hippocampus','mPFC'};%
@@ -28,6 +28,7 @@ for ri=1:length(pair_regions)
     sbj{ri}=[];
     lag{ri}=[];
     for subi=1:length(sbj_names)
+        sbj_name=[];
         sbj_name = sbj_names{subi};
         
         
@@ -50,7 +51,7 @@ for ri=1:length(pair_regions)
             clear el_stats sindx1 s1 start1 rol1 rol11 rol111 ele1 ele11 ti01 si01
             filename1=dir(fullfile(datapath,[sbj_name,'*',pair_regions{ri,1},'.mat']));
             load(fullfile(datapath,filename1.name));
-            ti01=intersect(intersect(find([el_stats.ROLmean]>=0.1),find([el_stats.ROLmean]<=1.5)),intersect(find([el_stats.hfb_start]>=0.1),find([el_stats.hfb_start]<=1.5)));
+            ti01=intersect(intersect(find([el_stats.ROLmean]>=0.1),find([el_stats.ROLmean]<=2)),intersect(find([el_stats.hfb_start]>=0.1),find([el_stats.hfb_start]<=2)));
             si01=intersect(find([el_stats.sig_hfb_autobio]>0),find([el_stats.sig_hfb_automath]>0));
             %sindx1=si01;
             sindx1=intersect(ti01,si01);
@@ -60,7 +61,8 @@ for ri=1:length(pair_regions)
             clear el_stats sindx s2 start2 st1 st2 rol2 rol22 rol22 ele2 ele22 ti01 si01
             filename2=dir(fullfile(datapath,[sbj_name,'*',pair_regions{ri,2},'.mat']));
             load(fullfile(datapath,filename2.name));
-            ti01=intersect(find([el_stats.ROLmean]>0.1),find([el_stats.hfb_start]>0.1));
+            ti01=intersect(intersect(find([el_stats.ROLmean]>=0.1),find([el_stats.ROLmean]<=2)),intersect(find([el_stats.hfb_start]>=0.1),find([el_stats.hfb_start]<=2)));
+     
             si01=intersect(find([el_stats.sig_hfb_autobio]>0),find([el_stats.sig_hfb_automath]>0));
             sindx=intersect(ti01,si01);
             
@@ -136,16 +138,35 @@ end
 for i=1:length(pair_regions)
     
     data.([pair_regions{i,1},'_',pair_regions{i,2}])=table;
-    data.([pair_regions{i,1},'_',pair_regions{i,2}]).subname=sbj{i}
-    data.([pair_regions{i,1},'_',pair_regions{i,2}]).elec=pairele{i}
-    data.([pair_regions{i,1},'_',pair_regions{i,2}]).rol=pairROL{i}
-    data.([pair_regions{i,1},'_',pair_regions{i,2}]).sig_onset=pairdata{i}
-    data.([pair_regions{i,1},'_',pair_regions{i,2}]).lag=lag{i}
+    data.([pair_regions{i,1},'_',pair_regions{i,2}]).subname=sbj{i};
+    data.([pair_regions{i,1},'_',pair_regions{i,2}]).elec=pairele{i};
+    data.([pair_regions{i,1},'_',pair_regions{i,2}]).rol=pairROL{i};
+    data.([pair_regions{i,1},'_',pair_regions{i,2}]).sig_onset=pairdata{i};
+    data.([pair_regions{i,1},'_',pair_regions{i,2}]).lag=lag{i};
+  
 end
 
+save ([datapath,filesep,'pairdata.mat'],'data');
 
+for i= 1:length(pair_regions)
+     rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}])=table;
+    p=[];rol=[];rol=data.([pair_regions{i,1},'_',pair_regions{i,2}]).rol;
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).rol=nanmean(rol);
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).rol_se=nanstd(rol)/sqrt(size(rol,1));
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).rol_elecN=size(rol,1);
+    [p, observeddifference, effectsize] = permutationTest(rol(:,1),rol(:,2),10000)
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).rol_p=p;
+    
+    p=[];sot=[];sot=data.([pair_regions{i,1},'_',pair_regions{i,2}]).sig_onset;
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).sot=nanmean(sot);
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).sot_se=nanstd(sot)/sqrt(size(sot,1));
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).sot_elecN=size(sot,1);
+    [p, observeddifference, effectsize] = permutationTest(sot(:,1),sot(:,2),10000)
+    rol_meandata.([pair_regions{i,1},'_',pair_regions{i,2}]).sot_p=p;
+    
+end
 
-save ('pairdata.mat','data');
+save ([datapath,filesep,'rol_meandata.mat'],'rol_meandata');
 
 
 a=pairdata{1}(:,2);
