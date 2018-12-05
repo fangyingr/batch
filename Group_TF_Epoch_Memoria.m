@@ -36,7 +36,7 @@ for subi=1:length(sbj_names)
     %     close all;
      for ri=1:length(regions)
           elec_names=[];elecs=[];
-          [elec_names,elecs] = ElectrodeBySubj_selected(sbj_name,regions{ri});
+          [elec_names,elecs] = ElectrodeBySubj_amy_corrected(sbj_name,regions{ri});
 %     load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
 %     %elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
 %     elecs=1:globalVar.nchan;
@@ -44,38 +44,38 @@ for subi=1:length(sbj_names)
     if ~isempty(elecs)
         
         
-%         %%wavelet
-%         for i = 1:length(block_names)
-%             parfor ei = 1:length(elecs)
-%                 WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'HFB', [], 500, true, 'Band')
-%                 % WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'SpecDense', [], 200, true, 'Spec') % only for HFB
-%             end
-%         end
+        %%wavelet
+        for i = 1:length(block_names)
+            parfor ei = 1:length(elecs)
+                WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'HFB', [], 500, true, 'Band')
+                % WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'SpecDense', [], 200, true, 'Spec') % only for HFB
+            end
+        end
         
-        % epoch
-% %         epoch_params = genEpochParams(project_name, 'stim');
-% %         epoch_params.blc.bootstrap = true; 
-% %         
-% %         for i = 1:length(block_names)
-% %             bn = block_names{i};
-% %             
-% %             parfor ei = 1:length(elecs)
-% %                 EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
-% %                 % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
-% %             end
-% %         end
-% %         
-% %         epoch_params = genEpochParams(project_name, 'resp');
-% %        epoch_params.blc.bootstrap = true;
-% %         for i = 1:length(block_names)
-% %             bn = block_names{i};
-% %             
-% %             parfor ei = 1:length(elecs)
-% %                 EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
-% %                 % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
-% %             end
-% %         end
-% %         %
+        %epoch
+        epoch_params = genEpochParams(project_name, 'stim');
+        epoch_params.blc.bootstrap = true; 
+        
+        for i = 1:length(block_names)
+            bn = block_names{i};
+            
+            parfor ei = 1:length(elecs)
+                EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
+                % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
+            end
+        end
+        
+        epoch_params = genEpochParams(project_name, 'resp');
+       epoch_params.blc.bootstrap = true;
+        for i = 1:length(block_names)
+            bn = block_names{i};
+            
+            parfor ei = 1:length(elecs)
+                EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
+                % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
+            end
+        end
+        %
         
         plot_params = genPlotParams(project_name,'timecourse');
         plot_params.noise_method = 'trials';%'timepts';%'trials'; %'trials','timepts','none'

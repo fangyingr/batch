@@ -84,8 +84,8 @@ switch region
                 elec_names = {''};
                 elec_nums =[];
             case 'S17_105_TA'
-                   elec_names = {'RIF1','RSF1','RSF2'};
-                elec_nums =[89 97 98];
+                   elec_names = {'RIF1','RSF1','RSF2'};%
+                elec_nums =[89 97 98];%
             case 'S17_110_SC'
                 elec_names = {'LOF1';'LOF2'};
                 elec_nums =[1 2];

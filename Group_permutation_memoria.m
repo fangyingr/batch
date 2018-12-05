@@ -4,7 +4,11 @@ AddPaths(computer)
 project_name = 'Memoria';
 center = 'Stanford';
 regions = {'PMC';'mPFC';'Hippocampus'};
+
 sbj_names ={'S14_69_RTb';'S16_99_CJ';'S16_100_AF';'S17_105_TA';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_127';'S18_128_CG';'S18_130_RH';'S18_131'};%;
+
+%{'S14_69_RTb';'S16_100_AF';'S17_105_TA';'S17_110_SC';'S16_99_CJ';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_127';'S18_128_CG';'S18_130_RH';'S18_131'};%;
+
 %{'S17_110_SC';'S17_118_TW';};
 
 locktype ='stim';
@@ -80,6 +84,8 @@ for ri=1:length(regions)
  acc(ri,:)=sum(sdata)/size(sdata,1);
  
 end
+
+
 
 for ri=1:length(regions)
  sdata=[];

@@ -33,7 +33,7 @@ for subi=1:length(sbj_names)
        [elec_names,elecs] = ElectrodeBySubj_selected(sbj_name,regions{ri});
 %         load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
 %         elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
-        elecs=33;
+         elecs=[83 66];
         if ~isempty(elecs)
             %wavelet
 %             for i = 1:length(block_names)
@@ -47,22 +47,23 @@ for subi=1:length(sbj_names)
 %             
             epoch_params = genEpochParams(project_name, 'stim');
              epoch_params.blc.bootstrap = true; 
-%         
-            for i = 1:length(block_names)
-                bn = block_names{i};
-                parfor ei = 1:length(elecs)
-                    EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
-                   % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
-                end
-            end
+        
+%             for i = 1:length(block_names)
+%                 bn = block_names{i};
+%                 parfor ei = 1:length(elecs)
+%                     EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
+%                    EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
+%                 end
+%             end
 %             %elecs=[71 51];
-           % elecs=[74 66];
+            elecs=[83 66];
             plot_params = genPlotParams(project_name,'timecourse');
             plot_params.noise_method = 'trials'; %'trials','timepts','none'
-            plot_params.noise_fields_trials ={'bad_epochs_raw_LFspike','bad_epochs_HFO','bad_epochs_raw_HFspike'};%{'bad_epochs'}%{'bad_epochs_HFO','bad_epochs_raw_HFspike'};
-            plot_params.multielec = false;
-            PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band') %{'autobio-specific','autobio-general'}
-            PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{},plot_params,'Band') %{'autobio-specific','autobio-general'}
+            plot_params.noise_fields_trials ={'bad_epochs_raw_LFspike','bad_epochs_HFO','bad_epochs_raw_HFspike'};%{'bad_epochs_HFO','bad_epochs_raw_HFspike'};%{'bad_epochs'}%
+            plot_params.multielec = true;
+            plot_params.col=[141,160,203;252,141,98;102,194,165]./255;
+           % PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band') %{'autobio-specific','autobio-general'}
+            PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio'},plot_params,'Band') %{'autobio-specific','autobio-general'}
           
             %  PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','TrueFalse',{'Auto_true','Auto_false'},plot_params,'Band') %{'autobio-specific','autobio-general'}
             
