@@ -7,14 +7,14 @@
 % 4. save data
 
 clear all;clc;
-project_name = 'MMR';
+project_name = 'Memoria';
 
 regions = {'Hippocampus';'PMC';'mPFC'};
 sbj_names ={'S18_119_AG';'S18_130_RH';'S18_131_L';'S18_131_R'};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
 locktype ='stim';
-datapath= '/Users/yingfang/Documents/data/Results/MMR/Group/ROL_125_5_4';
+datapath= '/Volumes/Ying_SEEG/Data_lbcn/Results/Memoria/Group/ROL/';
 pdatapath='/Volumes/Ying_SEEG/Data_lbcn/Results/MMR/Group/ROL'; % mmr permutation results path, used for selected sig channel
-regions={'PMC','mPFC','Hippocampus'};%
+regions={'Hippocampus','PMC','mPFC',};%
 
 freq_band='HFB';
 
@@ -45,17 +45,22 @@ for si=4
             %% selected the significant one
             pfilename=dir(fullfile(pdatapath,[sbj_name,'*',regions{ri},'.mat']));
             load (fullfile(pdatapath,pfilename.name))
-            for i=1:length(el_stats)
-                enames(i)=el_stats(i).elecname;
+            for i=1:size(ROL,1)
+                enames(i)=ROL(i).elecname;
             end
-            enum=[el_stats.elecnumber];
-           %  filename1=dir(fullfile(datapath,[sbj_name,'*',regions{ri},'.mat']));
-          %  load(fullfile(datapath,filename1.name));
-            r_ele=intersect(find([el_stats.ROLmean]>=0.05),find([el_stats.ROLmean]<=1.5));
+            enum=[ROL.elecnumber];
+            m_ele=find(ismember([ROL.elecnumber],elecs{ri})>0);
+            s_ele=intersect(find([ROL.sig_hfb_autobio]>0),find([ROL.sig_hfb_automath]>0));
+            f_ele=intersect(m_ele,s_ele);
+            clear ROL
+            % load the rol result
+            filename1=dir(fullfile(datapath,[sbj_name,'*',regions{ri},'.mat']));
+            load(fullfile(datapath,filename1.name));
+            r_ele=intersect(find(ROL.ROLmean(:,si)>=0.05),find(ROL.ROLmean(:,si)<=1));
             
             finalelec{ri}=intersect(f_ele,r_ele);
-            rol_all=[el_stats.ROLmean];
-            rol{ri}=rol_all(finalelec{ri});
+            
+            rol{ri}=ROL.ROLmean(finalelec{ri},si);
             en{ri}=enum(finalelec{ri});
             ename{ri}=enames(finalelec{ri});
             
@@ -96,7 +101,7 @@ se=std(pairdata.ROL)'./sqrt(length(pairdata.ROL))
 
 
 
-save ([datapath,'/pairdata_MMR_three.mat'],'pairdata');
+save ([datapath,'/pairdata_memoria.mat'],'pairdata');
 
 % C = [
 %     0.90    0.55    0.55

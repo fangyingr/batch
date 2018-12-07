@@ -1,4 +1,5 @@
 
+
 % Paired timing
 
 % 1. select region
@@ -7,18 +8,18 @@
 % 4. save data
 
 clear all;clc;
-project_name = 'Memoria';
+project_name = 'MMR';
 
 regions = {'Hippocampus';'PMC';'mPFC'};
-sbj_names = {'S18_119_AG';'S14_69_RTb';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_127';'S18_128_CG';'S18_130_RH';'S18_131_L';'S18_131_R'};%'S16_99_CJ';'S16_100_AF';'S17_105_TA';;
+sbj_names = {'S12_33_DA';'S12_38_LK';'S12_42_NC';'S14_69_RTb';'S16_99_CJ';'S16_100_AF';'S17_105_TA';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_130_RH';'S18_131_L';'S18_131_R'};%;
 
 %{'S18_119_AG';'S18_130_RH';'S18_131_L';'S18_131_R'};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
 locktype ='stim';
-datapath_rol= '/Volumes/Ying_SEEG/Data_lbcn/Results/Memoria/Group/ROL/';
-datapath_sot= '/Volumes/Ying_SEEG/Data_lbcn/Results/Memoria/Group/Stats/';
+datapath_rol= '/Volumes/Ying_SEEG/Data_lbcn/Results/MMR/Group/ROL/';
+datapath_sot= '/Volumes/Ying_SEEG/Data_lbcn/Results/MMR/Group/Stats/';
 %pdatapath='/Volumes/Ying_SEEG/Data_lbcn/Results/MMR/Group/Stats'; % mmr permutation results path, used for selected sig channel
 %regions={'PMC','mPFC','Hippocampus'};%
-pair_regions={'PMC','mPFC';'Hippocampus','PMC';'Hippocampus','mPFC'};%
+pair_regions={'Hippocampus','PMC';'Hippocampus','mPFC';'PMC','mPFC'};%
 
 % time=-0.202:0.002:2;
 % tindx=find(time>0);
@@ -143,7 +144,7 @@ for ri=1:length(pair_regions)
 end
 
 cate={'sot','rolmedian','rolmean','rolfitmedian','rolfitmean'};
-pair_regions={'PMC','mPFC';'Hippocampus','PMC';'Hippocampus','mPFC'};%
+pair_regions={'Hippocampus','PMC';'Hippocampus','mPFC';'PMC','mPFC';};%
 
 
 for i=1:length(cate)
@@ -174,5 +175,5 @@ a=dataselect.sot.Hippocampus_mPFC.sot;
 [p, observeddifference, effectsize] = permutationTest(a(:,1),a(:,2),10000)
 mean(a)
 
-save ([datapath_rol,'/pairdata_memoria_1206.mat'],'dataAll','dataselect','sdata');
+save ([datapath_rol,'/pairdata_mmr_1206.mat'],'dataAll','dataselect','sdata');
 
