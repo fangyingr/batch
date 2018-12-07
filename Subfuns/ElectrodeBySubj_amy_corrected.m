@@ -211,8 +211,8 @@ switch region
                 
                 
             case 'S18_131'
-                elec_names = {'LAH1'};%,'RAHb1'
-                elec_nums=[1];% 65
+                elec_names = {'LAH1','RAHb1'};%,
+                elec_nums=[1 65];% 
         end
 end
 end

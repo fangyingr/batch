@@ -216,4 +216,10 @@ a=diff(pairdata{1},[],2)
 
 median(a)
 
+a(:,1)=data.PMC_mPFC.lag
+a(:,2)=zeros(numel(data.PMC_mPFC.lag),1)
+[p, observeddifference, effectsize] = permutationTest(a(:,1),a(:,2),10000)
 
+b=mean(a(:,1));
+se=std(a(:,1))/sqrt(numel(a(:,1)));
+mean(data.PMC_mPFC.rol)

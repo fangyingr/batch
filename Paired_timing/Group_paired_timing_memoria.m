@@ -6,10 +6,12 @@
 % 4. save data
 
 clear all;clc;
-project_name = 'MMR';
+project_name = 'Memoria';
 
 regions = {'Hippocampus';'PMC';'mPFC'};
-sbj_names ={'S17_118_TW';'S18_119_AG';'S18_130_RH';'S18_131_L';'S18_131_R'};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
+sbj_names ={'S14_69_RTb';'S17_110_SC';'S17_112_EA';'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_127';'S18_128_CG';'S18_130_RH';'S18_131'};%'S16_99_CJ';'S16_100_AF';'S17_105_TA';;
+
+%{'S17_118_TW';'S18_119_AG';'S18_130_RH';'S18_131_L';'S18_131_R'};%;'S12_33_DA'};%};%;%;'S13_47_JT2'};%};%;'S18_125'
 locktype ='stim';
 datapath= '/Volumes/Ying_SEEG/Data_lbcn/Results/Memoria/Group/ROL/';
 pdatapath='/Volumes/Ying_SEEG/Data_lbcn/Results/MMR/Group/ROL'; % mmr permutation results path, used for selected sig channel
@@ -36,7 +38,7 @@ for si=1:4
             
             elec_names1=[];elecs1=[];elec_names2=[];elecs2=[];
             
-            [elec_names1,elecs1] = ElectrodeBySubj_LR(sbj_name,pair_regions{ri,1});
+            [elec_names1,elecs1] = ElectrodeBySubj_LR(sbj_name,pair_regions{ri,1});%ElectrodeBySubj_amy_corrected
             [elec_names2,elecs2] = ElectrodeBySubj_LR(sbj_name,pair_regions{ri,2});
             if strncmp('S18_131',sbj_name,7)
                 [elec_names1LR,elecs1LR] = ElectrodeBySubj_LR(sbj_name,pair_regions{ri,1});

@@ -16,7 +16,7 @@ locktype ='stim';
 server_root = '/Volumes/neurology_jparvizi$/';
 comp_root = '/Volumes/Ying_SEEG/Data_lbcn';
 code_root = '/Users/yingfang/Documents/lbcn_preproc';
-dtime=[-0.2:0.002:8]
+dtime=[-0.2:0.002:8];
 for ri=1:length(regions)
     
     data.(regions{ri})=table;
@@ -40,6 +40,28 @@ for ri=1:length(regions)
             %  [~, ~, ~, ~, ~, ~, hfb_elecs_am] = clusterPermutationStatsAll(sbj_name,project_name,block_names,dirs,elecs,'HFB',locktype,'condNames',{'autobio','math'},[],'Band',1,[],regions{ri});
             
             [pval, t_orig, ~, ~, ~, hfb_timing,hfb_elecs_a,time_events] = clusterPermutationStatsAll(sbj_name,project_name,block_names,dirs,elecs,'HFB',locktype,'condNames',{'autobio'},[],'Band',1,[],regions{ri}); %
+            
+           el_stats=table;
+                for i=1:length(elecs)         
+                    el_stats.subject(i)={sbj_name};
+                    el_stats.region(i) =regions(ri);
+                    el_stats.elecname(i)=elec_names(i);
+                    el_stats.elecnumber(i)=elecs(i);
+                    el_stats.hfb_start(i)=hfb_timing(i).start;
+                    el_stats.hfb_stop(i)=hfb_timing(i).stop;
+                    el_stats.hfb_duration(i)=hfb_timing(i).duration;
+                    el_stats.sig_hfb_autobio(i) = hfb_elecs_a(i);
+                    
+                end
+                
+            dir_out= [dirs.result_root,filesep,project_name,filesep,'Group',filesep,'Stats',filesep];
+            if ~exist(dir_out)
+                mkdir(dir_out)
+            end
+            fm_out = sprintf('%s/%s_%s_%slock_%s.mat',dir_out,sbj_name,project_name,locktype,regions{ri});
+            save(fm_out,'el_stats')
+            
+            
             
             te=[];te=[0 time_events];
             for ei=1:length(elecs)
@@ -78,6 +100,7 @@ end
 
 save('/Volumes/Ying_SEEG/Data_lbcn/Results/Memoria/Group/Stats/Group_memoria_permutation_proportion.mat','data')
 
+regions = {'PMC';'mPFC';'Hippocampus'};
 for ri=1:length(regions)
  sdata=[];
  sdata=data.(regions{ri}).sigbin;

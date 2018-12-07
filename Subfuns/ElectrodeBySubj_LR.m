@@ -52,8 +52,8 @@ switch region
                 elec_names = {'LCIN10'};
                 elec_nums=[40];
             case 'S18_131_L'
-                elec_names = {'LPC1','LPC2','LPC3','LPC4'};
-                elec_nums=[54:57];
+                elec_names = {'LPC2','LPC3','LPC4'};
+                elec_nums=[55:57];
                 
             case 'S18_131_R'
                 elec_names = {'RPC1','RPC2','RPC3','RPC4','RPC5'};
@@ -143,12 +143,12 @@ switch region
                 elec_nums =[6 7];
                 
             case 'S18_131_L'
-                elec_names = {'LAC1','LAC2','LAC3','LAC4','LAC5','LAC6','LAC7','LAC8','LAC9','LAC10','LAC11','LAC12','LAC13'};
-                elec_nums=[99:111];
+                elec_names = {'LAC1','LAC2','LAC3','LAC4','LAC5','LAC6','LAC7','LAC8','LAC9'};
+                elec_nums=[99:107];
                 
             case 'S18_131_R'
-                elec_names = {'RAC1','RAC2','RAC3','RAC13','RAC14'};
-                elec_nums=[30:32 42 43];
+                elec_names = {'RAC1','RAC2','RAC3'};
+                elec_nums=[30:32];
                 
         end
         
