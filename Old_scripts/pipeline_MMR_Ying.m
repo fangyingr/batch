@@ -8,7 +8,7 @@ AddPaths('Ying_iMAC')
 project_name = 'MMR';%'Memoria';%;
 
 %% Create folders
-sbj_name ='S17_116';%'S16_100_AF'%'S14_69_RTb';%'S17_118_TW';%'S17_110_SC';%'S16_99_CJ';%'S18_131';%'S12_42_NC'%'S18_130_RH';%'S12_38_LK';%'S13_47_JT2';%%%;%;%'S18_124_JR2'%'S12_33_DA'%'S12_42_NC';%%'S17_118_TW';%'S12_38_LK';%%'S12_38_LK';%;'S18_119_AG'%%%'S18_125';%'S18_126';%%'S11_27_PT';%'S12_33_DA'%'S13_47_JT2'%%'S17_112_EA'%%''S16_99_CJ';%'S17_110_SC';%'S13_47_JT2'%S17_112_EA'%%'S18_126';% 'S18_126';% 'S18_124_JR2';
+sbj_name ='S18_132';%'S17_116';%'S16_100_AF'%'S14_69_RTb';%'S17_118_TW';%'S17_110_SC';%'S16_99_CJ';%'S18_131';%'S12_42_NC'%'S18_130_RH';%'S12_38_LK';%'S13_47_JT2';%%%;%;%'S18_124_JR2'%'S12_33_DA'%'S12_42_NC';%%'S17_118_TW';%'S12_38_LK';%%'S12_38_LK';%;'S18_119_AG'%%%'S18_125';%'S18_126';%%'S11_27_PT';%'S12_33_DA'%'S13_47_JT2'%%'S17_112_EA'%%''S16_99_CJ';%'S17_110_SC';%'S13_47_JT2'%S17_112_EA'%%'S18_126';% 'S18_126';% 'S18_124_JR2';
 
 % Center
 % center = 'China';
@@ -100,7 +100,6 @@ end
 
 %% Branch 4 - bad channel rejection
 BadChanRejectCAR(sbj_name, project_name, block_names, dirs)
-
 %% concatenate all the data for Su' visualization tool
 
 plot_params.blc = true;
@@ -148,6 +147,8 @@ elecs=51;
 %elecs=[13 55]%[8 77];%[31 111 51]%[99 51 32]%[13 55]%[74 70]%[84 99];%
 plot_params = genPlotParams(project_name,'timecourse');
 plot_params.single_trial = 0;
+plot_params.noise_fields_trials= {'bad_epochs_HFO','bad_epochs_raw_HFspike'}; % can combine any of the bad_epoch fields in data.trialinfo (will take union of selected fields)
+
 PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band')%
 
 plot_params = genPlotParams(project_name,'timecourse','HFB',true);
@@ -262,12 +263,12 @@ end
 %elecs =[51 32 23 41 97 98 99 100]%[1 2 51 52];%[12 13 53 54 55]
   
 epoch_params = genEpochParams(project_name, 'stim');
-
+epoch_params.blc.bootstrap = true;
 for i = 1:length(block_names)
-    bn = block_names{i};
+    bn ='E18-975_0007'% block_names{i};
     parfor ei = 1:length(elecs)
         EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
-        EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
+      %  EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
     end
 end
 

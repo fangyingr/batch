@@ -79,7 +79,7 @@ for subi=1:length(sbj_names)
         
         plot_params = genPlotParams(project_name,'timecourse');
         plot_params.noise_method = 'trials';%'timepts';%'trials'; %'trials','timepts','none'
-        plot_params.noise_fields_trials ={'bad_epochs_HFO','bad_epochs_raw_HFspike','bad_epochs_raw_LFspike'};%{'bad_epochs'};%%{'bad_epochs_raw_jump','bad_epochs_raw_LFspike','bad_epochs_HFO','bad_epochs_raw_HFspike'};%;%%
+        plot_params.noise_fields_trials ={'bad_epochs_HFO','bad_epochs_raw_HFspike'};%,'bad_epochs_raw_LFspike'{'bad_epochs'};%%{'bad_epochs_raw_jump','bad_epochs_raw_LFspike','bad_epochs_HFO','bad_epochs_raw_HFspike'};%;%%
         plot_params.devidemax=false;%true;
         plot_params.multielec=false;
         %plot_params.lw = 2;
@@ -88,7 +88,7 @@ for subi=1:length(sbj_names)
         % PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','conds_all',{'autobio','numword'},plot_params,'Band')
        % PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
         
-        PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','conds_all',{},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
+        PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{},plot_params,'Band') %,'math'{'autobio-specific','autobio-general'}
         
         plot_params.xlim = [-5 1];
         %  PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','resp','conds_all',{'autobio','numword'},plot_params,'Band')
