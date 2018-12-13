@@ -275,8 +275,12 @@ end
 
 plot_params = genPlotParams(project_name,'timecourse');
 plot_params.noise_method = 'trials'; %'trials','timepts','none'
-% plot_params.noise_fields_trials ={'bad_epochs_raw_LFspike','bad_epochs_HFO','bad_epochs_raw_HFspike'};%{'bad_epochs'}%{'bad_epochs_HFO','bad_epochs_raw_HFspike'};
-PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',[],plot_params,'Band') %{'autobio-specific','autobio-general'}
+plot_params.xlim = [-3 1]
+ plot_params.noise_fields_trials ={'bad_epochs_HFO','bad_epochs_raw_HFspike'};%{'bad_epochs'}%{'bad_epochs_HFO','bad_epochs_raw_HFspike'};
+PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','stim','condNames',{'autobio','math'},plot_params,'Band') %{'autobio-specific','autobio-general'}
+
+PlotTrialAvgAll(sbj_name,project_name,block_names,dirs,elecs,'HFB','resp','condNames',{'autobio','math'},plot_params,'Band') %{'autobio-specific','autobio-general'}
+
 
 plot_params = genPlotParams(project_name,'ERSP');
 plot_params.noise_method = 'trials'; %'trials','timepts','none'

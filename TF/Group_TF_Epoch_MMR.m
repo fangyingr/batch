@@ -45,7 +45,7 @@ for subi=1:length(sbj_names)
 %             
 %             %Epoch
 %             
-            epoch_params = genEpochParams(project_name, 'stim');
+            epoch_params = genEpochParams(project_name, 'resp');%'stim'
              epoch_params.blc.bootstrap = true; 
         
             for i = 1:length(block_names)

@@ -12,7 +12,7 @@ project_name = 'Memoria';
 %% Create folders
 
 
-sbj_name ='S18_131';%'S18_129'%'S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
+sbj_name ='S18_130_RH'%'S18_131';%'S18_129'%'S17_105_TA';%'S18_128_CG';%'S17_116';%%'S17_104_SW';%'S14_69_RTb';% 'S18_131'%'S17_104_SW'%'S18_119_AG';%''S18_130_RH';%'S18_119_AG';%'S17_118_TW';
 
 center = 'Stanford';
 
@@ -22,12 +22,12 @@ block_names = BlockBySubj(sbj_name,project_name);
 
 % Make sure your are connected to CISCO and logged in the server
 server_root = '/Volumes/neurology_jparvizi$/';
-comp_root = '/Users/yingfang/Documents/data';%'//Volumes/Ying_SEEG/Data_lbcn';%
+comp_root = '//Volumes/Ying_SEEG/Data_lbcn';%'/Users/yingfang/Documents/data';%
 code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
 dirs = InitializeDirs(project_name,sbj_name,comp_root,server_root,code_root);
 
 %%
-load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
+load(sprintf('%s/OriginalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
 elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
 
 xcorr_params = genXCorrParams(project_name);
