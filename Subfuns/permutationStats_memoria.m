@@ -1,4 +1,4 @@
-function [p,binpower] = permutationStats_memoria(data,column,conds,stats_params)
+function [p,binpower,real_meandiff] = permutationStats_memoria(data,column,conds,stats_params)
 
 % This function takes in a data structure (trials x time) for a single
 % channel and compares either two conditions (if conds has two elements) or
@@ -39,7 +39,11 @@ time_events =[-0.5 0 time_events];
 bl_inds = find(data.time >= stats_params.bl_win(1) & data.time <= stats_params.bl_win(2));
    
 for si=1:length(time_events)-1
+    if isequal(si,1)
+        task_win=[time_events(si),time_events(si+1)];
+    else
     task_win=[time_events(si),time_events(si)+1];
+    end
     task_inds = find(data.time >= task_win(1) & data.time <= task_win(2));
     
     
@@ -48,10 +52,10 @@ for si=1:length(time_events)-1
     if length(conds)==1 % comparing one condition vs. baseline
         if stats_params.paired
             dataB = nanmean(tmp_data{1}(:,bl_inds),2);
-            p(1,si) = permutation_paired(dataA,dataB,stats_params.nreps);
+           [p(1,si), real_meandiff(1,si)] = permutation_paired(dataA,dataB,stats_params.nreps);
         else
              dataB = nanmean(data.wave(:,bl_inds),2);
-            p(1,si) = permutation_unpaired(dataA,dataB,stats_params.nreps);
+            [p(1,si), real_meandiff(1,si)]= permutation_unpaired(dataA,dataB,stats_params.nreps);
         end
     else  % comparing two conditions
         dataB = nanmean(tmp_data{2}(:,task_inds),2);

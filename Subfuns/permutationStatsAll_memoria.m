@@ -1,4 +1,4 @@
-function [p,p_fdr,sig,binpower] = permutationStatsAll_memoria(sbj_name,project_name,block_names,dirs,elecs,tag,column,conds,datatype,stats_params)
+function [p,p_fdr,sig,binpower,real_meandiff] = permutationStatsAll_memoria(sbj_name,project_name,block_names,dirs,elecs,tag,column,conds,datatype,stats_params)
 
 %% INPUTS
 %       sbj_name: subject name
@@ -42,7 +42,7 @@ p = nan(length(elecs),5);
 for ei = 1:length(elecs)
     el = elecs(ei);
     data_all = concatBlocks(sbj_name,block_names,dirs,el,datatype,'Band',{'wave'},tag);
-    [p(ei,:),binpower(ei,:)]= permutationStats_memoria(data_all,column,conds,stats_params);
+    [p(ei,:),binpower(ei,:),real_meandiff(ei,:)]= permutationStats_memoria(data_all,column,conds,stats_params);
     disp(['Performing permutation stats on elec: ',num2str(el)])
 end
 

@@ -4,11 +4,11 @@ AddPaths(computer)
 project_name = 'MMR';
 center = 'Stanford';
 regions = {'PMC';'mPFC';'Hippocampus'};
-sbj_names ={'S17_105_TA'};%'S17_104_SW';{'S12_42_NC'};%
-%}%'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_130_RH';'S12_33_DA';'S12_38_LK';'S12_42_NC';'S14_69_RTb';'S16_99_CJ';'S16_100_AF';'S17_105_TA';'S17_110_SC';'S17_112_EA';'S17_116';
+sbj_names ={'S12_38_LK'};%'S17_104_SW';{'S12_42_NC'};%'S17_105_TA'
+%}%'S17_118_TW';'S18_119_AG';'S18_124_JR2';'S18_126';'S18_130_RH';'S12_33_DA';'S12_42_NC';'S14_69_RTb';'S16_99_CJ';'S16_100_AF';'S17_105_TA';'S17_110_SC';'S17_112_EA';'S17_116';
 server_root = '/Volumes/neurology_jparvizi$/';
 comp_root = '/Volumes/Ying_SEEG/Data_lbcn';
-code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
+code_root = '/Users/yingfang/Documents/lbcn_preproc';
 
 % 
 % for i = 1:length(sbj_names)
@@ -33,24 +33,24 @@ for subi=1:length(sbj_names)
        [elec_names,elecs] = ElectrodeBySubj_amy_corrected(sbj_name,regions{ri});
 %         load(sprintf('%s/originalData/%s/global_%s_%s_%s.mat',dirs.data_root,sbj_name,project_name,sbj_name,block_names{1}),'globalVar');
 %         elecs = setdiff(1:globalVar.nchan,globalVar.refChan);
-      %   elecs=[83 66];
+        elecs=[82];
         if ~isempty(elecs)
             %wavelet
             for i = 1:length(block_names)
                 parfor ei = 1:length(elecs)   
-                    WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'HFB', [], 500, true, 'Band')
+                    WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'HFB', [], 500, false, 'Band')
                    % WaveletFilterAll(sbj_name, project_name, block_names{i}, dirs, elecs(ei), 'SpecDense', [], 200, true, 'Spec') % only for HFB
                 end
             end
 %             
 %             %Epoch
 %             
-            epoch_params = genEpochParams(project_name, 'resp');%'stim'
+            epoch_params = genEpochParams(project_name, 'stim');%'resp'
              epoch_params.blc.bootstrap = true; 
         
             for i = 1:length(block_names)
                 bn = block_names{i};
-                parfor ei = 1:length(elecs)
+                for ei = 1:length(elecs)
                     EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'HFB', [],[], epoch_params,'Band')
                   % EpochDataAll(sbj_name, project_name, bn, dirs,elecs(ei), 'SpecDense', [],[], epoch_params,'Spec')
                 end

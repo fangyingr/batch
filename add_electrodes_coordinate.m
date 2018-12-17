@@ -2,7 +2,7 @@
 clear;clc;
 
 project_name='MMR'
-sbj_names ={'S18_131'};%;
+sbj_names ={'S16_99_CJ'};%;'S18_131'
 
 
 %'S18_128_CG';'S12_33_DA';'S12_38_LK';'S12_42_NC';'S16_99_CJ';'S16_100_AF';'S17_105_TA';'S17_110_SC''S17_118_TW';'S18_119_AG';'S18_124_JR2';
@@ -11,7 +11,7 @@ sbj_names ={'S18_131'};%;
 % Create subject variable
 server_root = '/Volumes/neurology_jparvizi$/';
 comp_root = '/Volumes/Ying_SEEG/Data_lbcn';
-code_root = '/Users/yingfang/Documents/toolbox/lbcn_preproc';
+code_root = '/Users/yingfang/Documents/lbcn_preproc';
 
 % 
 center = 'Stanford';
